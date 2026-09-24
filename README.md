@@ -8,6 +8,8 @@ Use the circuit structures, design methods and specifications in Razavi’s arti
 
 A 2 V supply is proposed to provide more voltage headroom and make transistor saturation easier to achieve. Ambitious students are encouraged to explore operation at 1.2 V to reduce power consumption, while recognising the greater design challenge. The recording amplifier retains the separate 1.8 V baseline specified below.
 
+## 0. TO DO op-amp design specs
+
 ## 1. Low-dropout regulator (LDO)
 
 | Parameter | Proposed specification |
