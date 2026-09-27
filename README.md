@@ -6,16 +6,20 @@ The basic requirements should be achievable for most students who have studied t
 
 Use the circuit structures, design methods and specifications in Razavi’s article as a starting point. Students must adapt the designs to the available PDK and determine device sizes through their own design and simulation work. Copying the article’s dimensions is insufficient: for example, a 140 nm channel length is not available in a PDK with a minimum channel length of 180 nm.
 
-A 2 V supply is proposed to provide more voltage headroom and make transistor saturation easier to achieve. Ambitious students are encouraged to explore operation at 1.2 V to reduce power consumption, while recognising the greater design challenge. The recording amplifier retains the separate 1.8 V baseline specified below.
+A 1.8 V supply is proposed. Ambitious students are encouraged to explore operation at 1.2 V to reduce power consumption, while recognising the greater design challenge in device operation region.
 
-## 0. TO DO op-amp design specs
+## 0. TODO: 
+
+ - [ ] op-amp design specs
+ - [ ] circuit diagram drawing
+ - [ ] descriptions of the extra tasks, alongside with references
 
 ## 1. Low-dropout regulator (LDO)
 
 | Parameter | Proposed specification |
 | --- | --- |
 | Input voltage | 2.5 V |
-| Output voltage | 2 V |
+| Output voltage | 1.8 V |
 | Maximum output current | 5 mA |
 | PSRR | 40 dB at 1 MHz |
 | Output noise spectral density | < 100 nV/√Hz at 1 MHz |
@@ -24,7 +28,7 @@ A 2 V supply is proposed to provide more voltage headroom and make transistor sa
 
 | Parameter | Proposed specification |
 | --- | --- |
-| Supply voltage | 2 V |
+| Supply voltage | 1.8 V |
 | Output voltage | 1.25 V |
 | Output voltage variation | < 5 mV over 0–100 °C |
 | PSRR | 40 dB |
@@ -56,13 +60,13 @@ Design a recording amplifier for a neural-signal acquisition front end. It shoul
 
 A successful basic design without additional functions should be capable of earning approximately **65%**.
 
-To achieve a **First Class** result, students must develop **at least one additional recording-amplifier function**, such as:
+Here are some extra functions to be implemented in order to get extra marks 
 
 - Gain control.
 - Chopping.
 - Dynamic offset correction or offset calibration.
 
-At least one additional function is a necessary condition for a First Class result; the quality of its implementation and evaluation should inform the final mark.
+ The quality of its implementation and evaluation should inform the final mark.
 
 ## Details to confirm before issuing the brief
 
