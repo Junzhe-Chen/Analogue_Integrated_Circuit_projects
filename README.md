@@ -14,7 +14,31 @@ A 1.8 V supply is proposed. Ambitious students are encouraged to explore operati
  - [ ] circuit diagram drawing
  - [ ] descriptions of the extra tasks, alongside with references
 
+## Op-amp circuit options
+
+The following diagrams show two starting topologies for the op-amp design. Compare their gain, stability, biasing and voltage-headroom requirements before choosing an implementation. The op-amp specifications remain to be confirmed in the instructor checklist above.
+
+### Two-stage op-amp
+
+![Two-stage op-amp with an NMOS differential input pair, resistive connections in the PMOS load, a second gain stage and master-current bias.](assets/TASK_1_two_stage_opamp_circuit.png)
+
+*Figure 1. Two-stage op-amp starting circuit at 1.8 V. Determine the device sizes and bias currents, and investigate where compensation is needed to meet the stability requirements.* [View SVG](assets/TASK_1_two_stage_opamp_circuit.svg)
+
+### Folded-cascode op-amp
+
+![Folded-cascode op-amp with a PMOS differential input pair, two output branches, master-current bias and four labelled bias voltages.](assets/TASK_1_folded_cascode_opamp_circuit.png)
+
+*Figure 2. Folded-cascode op-amp starting circuit at 1.8 V. Check the bias voltages and saturation margins throughout the signal path; consider the complementary topology if the required input common-mode range calls for it.* [View SVG](assets/TASK_1_folded_cascode_opamp_circuit.svg)
+
 ## 1. Low-dropout regulator (LDO)
+
+The error amplifier drives the PMOS pass transistor so that the feedback-divider voltage follows the reference. Either op-amp topology above can be investigated as the error amplifier; verify stability with the pass transistor and load included.
+
+![LDO with a PMOS pass transistor controlled by error amplifier A1, reference voltage Vref and output-feedback divider R1 and R2.](assets/TASK_3_LDO_circuit.png)
+
+*Figure 3. LDO starting architecture. The diagram shows the regulator feedback path; include the load and any chosen compensation or output capacitance in the simulation testbench.* [View SVG](assets/TASK_3_LDO_circuit.svg)
+
+### Proposed specifications
 
 | Parameter | Proposed specification |
 | --- | --- |
@@ -70,6 +94,7 @@ Here are some extra functions to be implemented in order to get extra marks
 
 ## Details to confirm before issuing the brief
 
+- Confirm the LDO figure annotations against the specification table: the figure shows a 2–2.5 V input range and 0–75 °C operation, and its “±2” output-tolerance label needs a unit.
 - Add the full reference or link to Razavi’s article.
 - Specify the PSRR test frequencies for the bandgap reference and recording amplifier, and the CMRR test frequency for the amplifier.
 - Define the integration bandwidth for input-referred RMS noise and the input amplitude and frequency for THD testing.
