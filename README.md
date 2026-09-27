@@ -20,13 +20,13 @@ The following diagrams show two starting topologies for the op-amp design. Compa
 
 ### Two-stage op-amp
 
-![Two-stage op-amp with an NMOS differential input pair, resistive connections in the PMOS load, a second gain stage and master-current bias.](assets/TASK_1_two_stage_opamp_circuit.png)
+![Two-stage op-amp with an NMOS differential input pair, resistive connections in the PMOS load, a second gain stage and master-current bias.](assets/TASK_1_two_stage_opamp_circuit_bg.png)
 
 *Figure 1. Two-stage op-amp starting circuit at 1.8 V. Determine the device sizes and bias currents, and investigate where compensation is needed to meet the stability requirements.* [View SVG](assets/TASK_1_two_stage_opamp_circuit.svg)
 
 ### Folded-cascode op-amp
 
-![Folded-cascode op-amp with a PMOS differential input pair, two output branches, master-current bias and four labelled bias voltages.](assets/TASK_1_folded_cascode_opamp_circuit.png)
+![Folded-cascode op-amp with a PMOS differential input pair, two output branches, master-current bias and four labelled bias voltages.](assets/TASK_1_folded_cascode_opamp_circuit_bg.png)
 
 *Figure 2. Folded-cascode op-amp starting circuit at 1.8 V. Check the bias voltages and saturation margins throughout the signal path; consider the complementary topology if the required input common-mode range calls for it.* [View SVG](assets/TASK_1_folded_cascode_opamp_circuit.svg)
 
@@ -34,9 +34,9 @@ The following diagrams show two starting topologies for the op-amp design. Compa
 
 The error amplifier drives the PMOS pass transistor so that the feedback-divider voltage follows the reference. Either op-amp topology above can be investigated as the error amplifier; verify stability with the pass transistor and load included.
 
-![LDO with a PMOS pass transistor controlled by error amplifier A1, reference voltage Vref and output-feedback divider R1 and R2.](assets/TASK_3_LDO_circuit.png)
+![LDO with a PMOS pass transistor controlled by error amplifier A1, reference voltage Vref and output-feedback divider R1 and R2.](assets/TASK_2_LDO_circuit_bg.png)
 
-*Figure 3. LDO starting architecture. The diagram shows the regulator feedback path; include the load and any chosen compensation or output capacitance in the simulation testbench.* [View SVG](assets/TASK_3_LDO_circuit.svg)
+*Figure 3. LDO starting architecture. The diagram shows the regulator feedback path; include the load and any chosen compensation or output capacitance in the simulation testbench.* [View SVG](assets/TASK_2_LDO_circuit.svg)
 
 ### Proposed specifications
 
