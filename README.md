@@ -50,6 +50,14 @@ The error amplifier drives the PMOS pass transistor so that the feedback-divider
 
 ## 2. Bandgap reference
 
+The circuit below is the starting topology for Task 3. The op-amp forces the two sensing nodes toward the same voltage, while the unequal bipolar-junction areas and resistor network generate the PTAT and CTAT contributions used to obtain a temperature-stable reference. Students should size the circuit, add a reliable startup network and assess the effect of finite output resistance.
+
+![Task 3 bandgap reference with op-amp A1, bipolar transistors Q1 and Q2, resistor network, PMOS current mirror and buffered 1.25 V output.](assets/TASK_3_bandgap_reference_opamp_circuit_bg.png)
+
+*Figure 4. Task 3 bandgap-reference starting circuit at 1.8 V. The startup circuit is intentionally omitted and must be designed and verified by the student.* [View SVG](assets/TASK_3_bandgap_reference_opamp_circuit.svg)
+
+### Proposed specifications
+
 | Parameter | Proposed specification |
 | --- | --- |
 | Supply voltage | 1.8 V |
