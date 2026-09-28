@@ -3,8 +3,8 @@
 
 <svg
    width="59.999992mm"
-   height="42mm"
-   viewBox="0 0 59.999992 42"
+   height="41mm"
+   viewBox="0 0 59.999992 41"
    version="1.1"
    id="svg1"
    xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +15,7 @@
      id="layer4"
      transform="translate(-130,-10.000001)">
     <path
-       style="fill:#ffffc2;fill-opacity:1;stroke:#000000;stroke-width:0.256;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:0.256, 0.511999;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#ffffc2;fill-opacity:1;stroke:#000000;stroke-width:0.1;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        d="M 130.96207,50.999448 131,20 h 27 1 v 31.000549 z"
        id="path95" />
     <circle
