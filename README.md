@@ -47,5 +47,3 @@ The rewrite resolves the source brief's inconsistencies as follows:
 - Task 2 is **report only**, following its explicit deliverables statement. Packaging and automated-interface requirements apply to Task 1 only.
 - The title of Analog Devices tutorial MT-063 is corrected to *Basic Three Op Amp In-Amp Configuration*.
 - Example figures are conceptual starting points. Numerical requirements are defined by the chapter tables; ambiguous figure annotations do not add extra specifications.
-
-The technical content is adapted from `AIC_Coursework_2026.pdf`. The original PDF is retained unchanged; these Markdown chapters provide the institution-neutral version.
