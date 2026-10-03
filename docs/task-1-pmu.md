@@ -113,18 +113,7 @@ Organise the report around:
 3. **LDO:** pass device, feedback network, regulation, stability and transient results.
 4. **Integrated PMU:** reproducible system results, corner comparison, limitations and individual contributions.
 
-## 1.8 Evaluation rubric
-
-| Criterion | Evidence | Points |
-| --- | --- | ---: |
-| Op-amp and sub-block sizing | Analytical sizing, bias and compensation calculations; justified gain, power, bandwidth and stability trade-offs | 15 |
-| BGR implementation | Circuit operation, reliable startup, non-ideal effects, reference accuracy and temperature behaviour | 15 |
-| LDO implementation | Error amplifier, pass device and divider integration; current capability, regulation and loop stability | 15 |
-| Simulation and corner analysis | Reproducible DC, AC and transient evidence across process and temperature conditions | 10 |
-| Individual contribution and reflection | Clear ownership, technical contribution, design challenges and critical evaluation | 5 |
-| **Total** | | **60** |
-
-## 1.9 Reading
+## 1.8 Reading
 
 - B. Razavi, *The Design of an LDO Regulator*, IEEE Solid-State Circuits Magazine, 14(2), 7-17, 2022. [DOI](https://doi.org/10.1109/MSSC.2022.3167308) · [Local PDF](../resources/%5BRazavi%5D_The_Design_of_An_LDO_Regulator.pdf).
 - [Bandgap-reference design reading](../resources/%5BRazavi%5D_The_Design_of_A_Bandgap_Reference.pdf).

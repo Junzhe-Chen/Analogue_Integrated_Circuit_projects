@@ -15,7 +15,7 @@ This guide follows the technical requirements of the 2026 coursework brief. Inst
 
 Build a BGR and LDO that produce a stable reference and regulated supply from a 2.0-2.5 V input. Design the operational amplifiers for their actual feedback configurations, loads and startup conditions. Verify the complete PMU across supply, load, temperature and process variations.
 
-[Read Chapter 1: specifications, architecture, verification, interface and evaluation](docs/task-1-pmu.md).
+[Read Chapter 1: specifications, architecture, verification, interface and reporting](docs/task-1-pmu.md).
 
 ## Task 2: Surface EMG Recording Amplifier
 
@@ -25,7 +25,7 @@ Design one recording channel for wet Ag/AgCl electrodes. Amplify differential mu
 
 *System context. The recording amplifier is the focus of Task 2. The drawn instrumentation amplifier is an example; alternative architectures are permitted. Signal flow is from electrodes to amplifier, ADC and digital processing.*
 
-[Read Chapter 2: specifications, architecture options, verification and evaluation](docs/task-2-semg.md).
+[Read Chapter 2: specifications, architecture options, verification and reporting](docs/task-2-semg.md).
 
 ## Working approach and reporting
 
@@ -35,7 +35,7 @@ Design one recording channel for wet Ag/AgCl electrodes. Amplify differential mu
 - Discuss limitations and unsuccessful targets: sound engineering methodology and critical evaluation remain important when a specification is not achieved.
 - Combine both task reports into a document of at most 16 pages, using 11-point Arial, single line spacing and 2 cm margins. Identify each contributor's calculations, circuits, simulations and design decisions.
 
-The task evaluation weights are 60 points for Task 1 and 40 points for Task 2. Detailed technical rubrics are included in the chapters. No layout or fabrication is required by this guide.
+No layout or fabrication is required by this guide.
 
 ## Reading and source notes
 

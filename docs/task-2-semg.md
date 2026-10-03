@@ -98,18 +98,7 @@ The report should contain:
 
 Present plots with readable axes, units, conditions and markers. Explain results rather than relying on screenshots alone.
 
-## 2.7 Evaluation rubric
-
-| Criterion | Evidence | Points |
-| --- | --- | ---: |
-| Architecture and sizing | Analytical dimensions, bias, gain, bandwidth and compensation; justified noise/power/area trade-offs | 10 |
-| Recording-amplifier implementation | Input, bias, gain, frequency-shaping and output functions; demonstrated gain, bandwidth, rejection and offset performance | 10 |
-| Noise, stability and linearity | Integrated input noise, feedback stability, capacitive-load behaviour and distortion | 8 |
-| Simulation and corner analysis | DC, AC, transient, noise and distortion evidence across process, supply and load conditions | 7 |
-| Individual contribution and reflection | Clear technical ownership, design iterations, challenges and lessons learned | 5 |
-| **Total** | | **40** |
-
-## 2.8 References and supporting reading
+## 2.7 References and supporting reading
 
 1. X. Tang, Y. Liu, C. Lv and D. Sun, *Hand Motion Classification Using a Multi-Channel Surface Electromyography Sensor*, Sensors, 12(2), 1130-1147, 2012. [DOI](https://doi.org/10.3390/s120201130).
 2. R. F. Yazicioglu, P. Merken, R. Puers and C. Van Hoof, *A 60 µW 60 nV/√Hz Readout Front-End for Portable Biopotential Acquisition Systems*, JSSC, 42(5), 1100-1110, 2007. [DOI](https://doi.org/10.1109/JSSC.2007.894804).
