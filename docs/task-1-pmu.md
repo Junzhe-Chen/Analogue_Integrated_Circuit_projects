@@ -1,18 +1,16 @@
-# Chapter 1: Task 1 - Power Management Unit
+# Task 1: Power management unit
 
-[Coursework overview](../README.md) · [Next: Task 2](task-2-semg.md)
+[Overview](../README.md) · [System context and papers](system-context.md) · [Task 2](task-2-semg.md)
 
-## 1.1 Objective and system context
+## Circuit
 
-Design a transistor-level power management unit (PMU) in GPDK180 using Cadence Virtuoso. The PMU supplies an electronic system with a stable 1.8 V rail at load currents up to 20 mA despite changes in supply, temperature, process and load.
+Design a GPDK180 bandgap reference (BGR) and low-dropout regulator (LDO) in Cadence Virtuoso. Connect the BGR's nominal 1.25 V output to the LDO reference input. The complete PMU must supply 1.8 V at load currents up to 20 mA.
 
-The PMU contains a bandgap reference (BGR), which generates a nominal 1.25 V reference, and a low-dropout regulator (LDO), which uses that reference to regulate the output. Each block requires a suitable operational amplifier, bias circuitry and a supply arrangement that supports reliable startup.
+![Bandgap reference and LDO connected to a common unregulated supply.](../assets/PMU_rm_hint.png)
 
-![Bandgap reference connected to the LDO reference input, with a common external supply and a regulated output.](../assets/PMU_rm_hint.png)
+*Example PMU. Supply the power path from the unregulated input and verify startup with the actual amplifier supplies. The figure's "±2" annotation is incorrect; use the BGR maximum-to-minimum variation below.*
 
-*Figure 1. Example PMU architecture. Connect the BGR output to the LDO reference input; the external supply feeds the power path. The figure's input label should read “unregulated”, and its “±2” annotation is superseded by the < 2 mV maximum-to-minimum temperature variation specified below.*
-
-## 1.2 Required specifications
+## Specifications
 
 | Block | Parameter | Target |
 | --- | --- | --- |
@@ -30,93 +28,80 @@ The PMU contains a bandgap reference (BGR), which generates a nominal 1.25 V ref
 | BGR | PSRR | ≥ 40 dB at 100 kHz |
 | BGR | Quiescent current | < 100 µA |
 
-Include operational-amplifier, bias and startup-circuit currents in the corresponding block's quiescent-current budget. Exclude external load current. Identify shared bias currents and count them only once in the total PMU current.
+Each block's quiescent-current budget includes its operational amplifier, bias and startup circuits, but excludes external load current. Identify shared bias currents and count them once in the total PMU current.
 
-The < 2 mV BGR requirement is the full maximum-to-minimum variation over temperature, not a ±2 mV tolerance. State the supply and reference loading used for this measurement.
+The BGR temperature limit is the full maximum-to-minimum variation, not ±2 mV. State the supply and reference load used to measure it.
 
-## 1.3 Operational-amplifier design
+## Operational amplifiers
 
-Select and justify an amplifier topology for each block. A two-stage amplifier is a starting option; other architectures are allowed when their suitability is demonstrated. The BGR and LDO amplifiers need not be identical.
+Choose a suitable amplifier for each block; the BGR and LDO may use different topologies. Derive device sizes and bias currents from the connected circuit's requirements.
 
-![Example two-stage operational amplifier with differential input pair, active loads, second stage and master-current bias.](../assets/OpAmp_two-stage_unspecified_VDD_voltage.png)
+![Example two-stage operational amplifier with differential input, active loads and bias circuit.](../assets/OpAmp_two-stage_unspecified_VDD_voltage.png)
 
-*Figure 2. Starting op-amp architecture. Determine device dimensions, bias generation and compensation from the connected block's requirements.*
+*Example topology. Set device dimensions, bias generation and compensation for the actual load and feedback loop.*
 
-| Aspect | Required design and verification evidence |
+| Property | Design and verification requirement |
 | --- | --- |
-| Devices and topology | Use permitted GPDK180 devices; justify architecture and any differences between the BGR and LDO amplifiers. |
-| Supply and startup | Verify startup using the block's actual supply arrangement, without assuming an already-established regulated output. |
-| Input common-mode range | Demonstrate coverage of the BGR or LDO sensing-node voltages under the assessed operating conditions. |
-| Output swing and drive | Verify operation with the connected load, including the LDO pass-transistor gate. |
-| DC gain | Report open-loop gain at the relevant operating point and relate it to reference accuracy and output regulation. |
-| Bandwidth and slew rate | Report unity-gain bandwidth and slew rate with the specified load; justify them using startup and transient results. |
-| Stability | Verify the actual feedback loops. The LDO requires ≥ 60° phase margin; report the BGR loop results as well. |
-| Current | Include amplifier and associated bias currents within each complete block's < 100 µA budget. |
-| Noise and PSRR | Include amplifier contributions in the corresponding block's overall verification. |
+| Implementation | Use GPDK180 devices; justify each topology and any differences between the two amplifiers. |
+| Supply and startup | Use the block's actual supply arrangement; verify startup without an already-established regulated output. |
+| Input common-mode range | Cover the BGR or LDO sensing-node voltages over the operating range. |
+| Output swing and drive | Drive the connected load, including the LDO pass-transistor gate, over the operating range. |
+| DC gain | Measure open-loop gain at the relevant bias point and relate it to reference accuracy and output regulation. |
+| Bandwidth and slew rate | Measure unity-gain bandwidth and slew rate with the actual load; justify them using startup and transient results. |
+| Stability | Check the actual feedback loops: LDO phase margin ≥ 60°; record BGR loop-stability results. |
+| Current, noise and PSRR | Include amplifier and bias contributions in the complete block's results and current budget. |
 
-The brief does not prescribe separate numerical op-amp gain, bandwidth or slew-rate targets. Derive suitable values from the PMU requirements and demonstrate the resulting system performance.
+There are no separate numerical op-amp gain, bandwidth or slew-rate targets. Choose values that allow the complete PMU to meet its specifications.
 
-## 1.4 BGR, LDO and integration
+## BGR and LDO design
 
-For the BGR, explain the PTAT and CTAT contributions, bipolar-device area ratios, resistor choices and amplifier feedback. Design a startup circuit and assess non-idealities such as finite output resistance and channel-length modulation. Demonstrate reference generation and temperature behaviour with the actual reference load.
+For the BGR, calculate the PTAT and CTAT contributions, including bipolar-device area ratios and resistor values. Check current matching and finite-output-resistance effects such as channel-length modulation. Implement a startup circuit and verify the reference with its actual load.
 
-For the LDO, size the pass transistor and feedback divider for the required output voltage, current and dropout. Explain compensation and verify stability with the selected output capacitor and equivalent series resistance (ESR). Evaluate line regulation, load regulation and dynamic load response.
+For the LDO, size the pass transistor and feedback divider for output voltage, load current and dropout. Select the output capacitor and equivalent series resistance (ESR), then design compensation and check line regulation, load regulation and load transients.
 
-Finally, connect the BGR reference output to the LDO reference input and simulate the complete PMU. Confirm that startup, reference loading and shared biasing remain valid after integration.
+Connect both blocks and repeat the checks on the complete PMU. Reference loading and shared biasing must remain valid after integration.
 
-## 1.5 Verification checklist
+## Simulation checks
 
-State supply voltage, load current, output capacitance, ESR, reference loading, process corner and temperature for every result. For amplifier characterisation, also state input common mode and output operating point.
+Record supply voltage, load current, output capacitance and ESR, reference loading, process corner and temperature for every result. For amplifier measurements, also record input common-mode voltage and output operating point.
 
-- [ ] DC operating points and device operating regions.
-- [ ] Supply and load sweeps, line/load regulation and dropout characterisation.
-- [ ] BGR reference sweep over 0-75 °C, reporting maximum-to-minimum variation.
-- [ ] Startup of the BGR, LDO and integrated PMU.
-- [ ] Transient response to supply and load changes, with step amplitudes and edge times stated.
-- [ ] LDO and BGR loop-stability analysis under the connected load conditions.
-- [ ] PSRR at 100 kHz for each block, supported by frequency-response plots.
-- [ ] LDO integrated output noise over 0.1-100 Hz.
-- [ ] Quiescent-current accounting, including startup and bias circuits.
-- [ ] Process-corner checks at TT, FF and SS, plus temperature sweeps.
-- [ ] Integrated PMU verification and a target-versus-result summary with failures explained.
+| Analysis | Check |
+| --- | --- |
+| DC operating point and sweeps | Device regions, bias currents, line/load regulation and dropout. |
+| Temperature sweep | BGR maximum-to-minimum reference variation over 0-75 °C. |
+| Transient | BGR, LDO and integrated PMU startup; supply and load steps with amplitudes and edge times stated. |
+| Loop stability | LDO phase margin and BGR stability with the connected loads. |
+| Supply rejection | PSRR frequency response for each block, including the value at 100 kHz. |
+| Noise | LDO output noise integrated over 0.1-100 Hz, including amplifier contributions. |
+| Current | Complete-block quiescent currents and shared-current accounting. |
+| Corners and integration | TT, FF and SS, temperature sweeps, and complete PMU operation; compare results with every target. |
 
-Where the brief does not define a test value, such as output capacitance, ESR or a load-step edge time, state and justify the chosen condition rather than treating it as a supplied specification.
+The brief does not set an LDO output-voltage tolerance or dropout measurement criterion. It also leaves output capacitance, ESR, reference loading and transient-step conditions unspecified. State and justify these test conditions rather than adding numerical requirements.
 
-## 1.6 Design-library interface and deliverables
+## Cadence interface
 
-Provide a report section of at most 8 pages and a complete Cadence design library as one ZIP or TAR archive. Include all hierarchy and views needed to reproduce the PMU simulations.
+Keep the complete circuit accessible through this interface for the common testbench.
 
-| Interface item | Required value |
+| Item | Required value |
 | --- | --- |
 | Library | `cw_submission` |
 | Top-level cell | `pmu_top` |
-| Cell views | `schematic` and `symbol` |
+| Views | `schematic` and `symbol` |
 | Netlist terminal order | `VDD VSS VOUT` |
-| Symbol placement | `VDD` left; `VSS` bottom; `VOUT` right |
+| Symbol pin placement | `VDD` left; `VSS` bottom; `VOUT` right |
 
-| Terminal | Cadence pin direction | Function |
+| Terminal | Cadence direction | Function |
 | --- | --- | --- |
-| `VDD` | `inputOutput` | External unregulated supply driven by the testbench |
+| `VDD` | `inputOutput` | External unregulated supply |
 | `VSS` | `inputOutput` | Ground and supply return |
 | `VOUT` | `output` | Regulated PMU output |
 
-Terminal names are case-sensitive. Internal cell names and hierarchy are flexible. Preserve this interface for compatibility with the common verification testbench described in the brief. Interface templates and testbench files are separate supporting materials; this chapter does not supply them.
+Terminal names are case-sensitive. Internal cell names and hierarchy are flexible; include all dependencies needed to simulate the complete circuit.
 
-## 1.7 Suggested collaboration and report structure
+## Reading
 
-One contributor can lead the BGR, startup, temperature response and reference line regulation. The other can lead pass-device sizing, the LDO divider, stability and load transients. Both should contribute to amplifier design, initial hand calculations, schematic review, simulation cross-checking, integration and reporting.
+- B. Razavi, *The Design of an LDO Regulator*, IEEE Solid-State Circuits Magazine, 2022. [DOI](https://doi.org/10.1109/MSSC.2022.3167308) · [PDF](../resources/articles/%5BRazavi%5D_The_Design_of_An_LDO_Regulator.pdf).
+- [Bandgap-reference design](../resources/articles/%5BRazavi%5D_The_Design_of_A_Bandgap_Reference.pdf).
+- [Single-stage op-amp design](../resources/articles/%5BRazavi%5D_One_Stage_OpAmp.pdf).
 
-Organise the report around:
-
-1. **Operational amplifiers:** topology justification, sizing, biasing, compensation, gain, bandwidth and stability.
-2. **BGR:** circuit operation, PTAT/CTAT design, startup and reference-voltage results.
-3. **LDO:** pass device, feedback network, regulation, stability and transient results.
-4. **Integrated PMU:** reproducible system results, corner comparison, limitations and individual contributions.
-
-## 1.8 Reading
-
-- B. Razavi, *The Design of an LDO Regulator*, IEEE Solid-State Circuits Magazine, 14(2), 7-17, 2022. [DOI](https://doi.org/10.1109/MSSC.2022.3167308) · [Local PDF](../resources/%5BRazavi%5D_The_Design_of_An_LDO_Regulator.pdf).
-- [Bandgap-reference design reading](../resources/%5BRazavi%5D_The_Design_of_A_Bandgap_Reference.pdf).
-- [Single-stage op-amp design reading](../resources/%5BRazavi%5D_One_Stage_OpAmp.pdf).
-
-[Back to overview](../README.md) · [Continue to Task 2](task-2-semg.md)
+[Overview](../README.md) · [Task 2](task-2-semg.md)

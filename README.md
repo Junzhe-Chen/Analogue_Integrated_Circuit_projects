@@ -1,42 +1,28 @@
-# Analogue Integrated Circuit Design Coursework
+# Analogue integrated circuit design
 
-Design, simulate and evaluate two analogue subsystems in GPDK180: a power management unit and a surface electromyography (sEMG) recording amplifier. Use transistor-level circuits in Cadence Virtuoso, support design decisions with hand calculations, and verify performance through reproducible simulations.
+Design a power management unit (PMU) and a surface electromyography (sEMG) recording amplifier in GPDK180. Use transistor-level circuits in Cadence Virtuoso and verify them through schematic simulations. Layout and fabrication are outside the project scope.
 
-This guide follows the technical requirements of the 2026 coursework brief. Institution-specific administration and policies have been omitted. The specification tables in the chapters below replace the earlier exploratory targets in this repository.
+## Design tasks
 
-## Chapters
+| Chapter | Circuit | Main targets |
+| --- | --- | --- |
+| [Task 1: PMU](docs/task-1-pmu.md) | Bandgap reference, LDO and their operational amplifiers | 1.25 V reference; 1.8 V regulated output up to 20 mA from a 2.0-2.5 V supply |
+| [Task 2: sEMG recording amplifier](docs/task-2-semg.md) | One differential recording channel | 1.8 V supply; 40 dB gain; 10 Hz to 1 kHz nominal passband; quiescent current ≤ 20 µA |
 
-| Chapter | Design task | Main targets | Deliverables |
-| --- | --- | --- | --- |
-| [Task 1: Power Management Unit](docs/task-1-pmu.md) | Operational amplifiers, bandgap reference (BGR), low-dropout regulator (LDO), and integration | 1.8 V regulated output up to 20 mA; 1.25 V reference | Report section, maximum 8 pages; complete Cadence library in ZIP or TAR format |
-| [Task 2: Surface EMG Recording Amplifier](docs/task-2-semg.md) | Low-noise differential acquisition for forearm gesture recognition | 40 dB gain; 10 Hz to 1 kHz nominal passband; current ≤ 20 µA | Report section, maximum 8 pages; no design-file submission required |
+## System context
 
-## Task 1: Power Management Unit
+The intended application is a forearm-worn gesture interface. Wet Ag/AgCl electrodes detect muscle activity; the recording amplifier rejects electrode DC offsets and conditions the differential signal for an ADC. A processor then classifies the activity pattern. Published examples include an EMG-based AR/VR system and embedded gesture learning. [VLSI 2023](https://doi.org/10.23919/VLSITechnologyandCir57934.2023.10185392), [TBioCAS 2019](https://doi.org/10.1109/TBCAS.2019.2914476).
 
-Build a BGR and LDO that produce a stable reference and regulated supply from a 2.0-2.5 V input. Design the operational amplifiers for their actual feedback configurations, loads and startup conditions. Verify the complete PMU across supply, load, temperature and process variations.
+The BGR supplies the LDO with a nominal 1.25 V reference, and the LDO delivers the recording amplifier's 1.8 V rail. Reference noise and supply disturbances can affect the acquired signal, so verify the complete PMU with the actual reference and load. The 20 mA LDO rating represents supply capacity for a larger system; one recording channel draws at most 20 µA. ADC and classifier design remain outside the project scope.
 
-[Read Chapter 1: specifications, architecture, verification, interface and reporting](docs/task-1-pmu.md).
+Read the [system description and IEEE papers](docs/system-context.md) for the signal and power paths, the reasons for the design targets, and examples from ISSCC, JSSC, VLSI, CICC, TCAS-I and TBioCAS.
 
-## Task 2: Surface EMG Recording Amplifier
+![Forearm electrodes, recording amplifier, ADC and gesture recognition, with PMU support.](assets/AFE_system_diagram_rm_hint.png)
 
-Design one recording channel for wet Ag/AgCl electrodes. Amplify differential muscle signals while controlling noise, electrode-offset sensitivity, power consumption and interference. The ADC and gesture-recognition processing provide system context; their design is outside this task.
+*The three-op-amp circuit illustrates one possible recording amplifier. Its repeated A2 label denotes separate amplifiers. The amplifier's output-bias reference and the ADC reference have distinct functions.*
 
-![Surface EMG electrodes, recording amplifier, ADC and gesture-recognition processing, supported by an LDO and bandgap reference.](assets/AFE_system_diagram_rm_hint.png)
+## Design method
 
-*System context. The recording amplifier is the focus of Task 2. The drawn instrumentation amplifier is an example; alternative architectures are permitted. Signal flow is from electrodes to amplifier, ADC and digital processing.*
+Start with hand calculations for device sizing and bias currents. Adapt published circuits to GPDK180, then check the operating points and complete feedback loops. Record simulation conditions and compare each result with its target, explaining any shortfall.
 
-[Read Chapter 2: specifications, architecture options, verification and reporting](docs/task-2-semg.md).
-
-## Working approach and reporting
-
-- Work in pairs, with clearly identified ownership and shared design reviews. Suggested responsibilities appear in each chapter.
-- Start with analytical sizing and bias calculations. Adapt published designs to permitted GPDK180 devices and explain your choices.
-- Provide schematics, operating points, labelled simulation plots and a final target-versus-result table. Record conditions so that results can be reproduced.
-- Discuss limitations and unsuccessful targets: sound engineering methodology and critical evaluation remain important when a specification is not achieved.
-- Combine both task reports into a document of at most 16 pages, using 11-point Arial, single line spacing and 2 cm margins. Identify each contributor's calculations, circuits, simulations and design decisions.
-
-No layout or fabrication is required by this guide.
-
-## Reading and source notes
-
-Supporting papers are in [resources](resources/), with task-specific reading linked in each chapter. Existing figures are in [assets](assets/).
+Task-specific reading is linked in each chapter. Supporting papers are in [resources/articles](resources/articles/), and the [gm/ID guide](resources/useful_techniques/Analysis_and_Implementation_of_gm_over_id_Methodology.pdf) covers a transistor-sizing method.

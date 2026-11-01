@@ -1,20 +1,12 @@
-# Chapter 2: Task 2 - Surface EMG Recording Amplifier
+# Task 2: sEMG recording amplifier
 
-[Coursework overview](../README.md) · [Previous: Task 1](task-1-pmu.md)
+[Overview](../README.md) · [System context and papers](system-context.md) · [Task 1](task-1-pmu.md)
 
-## 2.1 Objective and application
+## Circuit
 
-Design a transistor-level recording amplifier for surface electromyography (sEMG) acquisition from wet Ag/AgCl forearm electrodes. The amplifier conditions small differential muscle signals for digitisation and subsequent gesture recognition.
+Design one transistor-level recording channel in GPDK180 using Cadence Virtuoso. It amplifies differential muscle signals from wet Ag/AgCl forearm electrodes for digitisation and gesture recognition [1]. The PMU supplies 1.8 V; this task covers the amplifier and its local bias and common-mode circuits.
 
-The analogue front end receives a 1.8 V supply from an LDO; a bandgap reference supports the power and reference-voltage functions. The ADC and machine-learning stages provide application context. This task concerns the recording amplifier and its verification.
-
-![Forearm sEMG sensor, recording amplifier, ADC and gesture-recognition system with PMU support.](../assets/AFE_system_diagram_rm_hint.png)
-
-*Figure 3. Recording-amplifier application. The three-op-amp circuit is one illustrative topology, not a required implementation. The figure repeats the A2 label; identify the three amplifiers separately in your design. Its amplifier output-bias reference and ADC reference are distinct functions.*
-
-## 2.2 Required specifications
-
-The following values follow Table 6 of the source brief. In particular, the nominal passband is **10 Hz to 1 kHz**, and the channel-current limit is **20 µA**.
+## Specifications
 
 | Parameter | Target |
 | --- | --- |
@@ -32,80 +24,56 @@ The following values follow Table 6 of the source brief. In particular, the nomi
 | Channel current | ≤ 20 µA total quiescent current, including local bias and common-mode circuitry; excludes the LDO and BGR |
 | Stability | Phase margin ≥ 45° if feedback is used |
 | Load evaluation | Assess operation with 1-5 pF capacitive loads |
-| Area | Report total capacitance and estimated device/passive area; no layout or fabricated-area requirement |
+| Area | Record total capacitance and estimated device/passive area; no layout or fabricated-area requirement |
 
-Electrode DC offset is an external differential input offset, not the OTA's intrinsic input offset. At 1.8 V, the 20 µA channel budget corresponds to at most 36 µW quiescent power. A 40 dB gain is a voltage gain of 100, so the specified 2 mV peak-to-peak input gives approximately 200 mV peak-to-peak output at 100 Hz.
+Use the 10 ± 2 Hz lower cutoff in the brief's Table 6; its system overview states 20 Hz. Electrode DC offset is an external differential voltage, distinct from the OTA's intrinsic input offset.
 
-The earlier exploratory targets of a 500 Hz upper cutoff, 100 µA channel current and 60° phase margin are superseded by the table above.
+At 1.8 V, the current limit gives 36 µW maximum quiescent power. A 40 dB voltage gain is 100, so a 2 mV peak-to-peak input produces approximately 200 mV peak-to-peak output at 100 Hz.
 
-## 2.3 Architecture selection
+## Architecture
 
-Choose an architecture based on noise, power, headroom, input impedance, offset handling, bandwidth and stability. Assessment concerns the engineering justification and demonstrated performance, rather than selection of a particular topology.
+Select a topology that meets the complete channel specifications. Use hand calculations to set transistor sizes, bias currents and component values, then explain the resulting trade-offs.
 
-| Architecture | Reference | Design questions |
-| --- | --- | --- |
-| Current-feedback instrumentation amplifier (CFIA) | Yazicioglu et al. [2] | How do current feedback, input common mode and offset handling affect gain, noise and power? |
-| Capacitively coupled instrumentation amplifier (CCIA) | Fan et al. [3] | How are gain and the lower cutoff set, and how do input capacitance, DC feedback and optional chopping affect performance? |
-| Three-op-amp instrumentation amplifier | Analog Devices MT-063 [4] | Can the architecture meet the 1.8 V headroom and 20 µA total-current limits while rejecting electrode DC offsets? |
-| Inverter-based amplifier | Vieira et al. [5] | How are bias, common-mode behaviour, gain and bandwidth controlled over process and supply variations? |
-
-![Example capacitively coupled and current-feedback instrumentation amplifier architectures.](../assets/IA_example_two.png)
-
-*Figure 4. Example CCIA and CFIA structures. Adapt the circuit to GPDK180, implement required bias and feedback functions, and verify the complete recording channel. The examples are not complete verified solutions.*
-
-Explain how the design establishes its DC operating point, rejects electrode offsets, sets both cutoff frequencies and accommodates its output load. Include common-mode feedback when required by the selected output configuration. Chopping is a possible design technique, not a compulsory feature.
-
-## 2.4 Verification and evidence
-
-State the supply, input common-mode voltage, output operating point, electrode offset, input stimulus, output load, process corner and temperature for each simulation. Define any supply-variation sweep and other test conditions not numerically fixed by the brief.
-
-- [ ] **DC operation:** bias currents, operating regions, input common mode and available output swing.
-- [ ] **Frequency response:** gain at 100 Hz and both -3 dB cutoff frequencies, with the reference gain stated.
-- [ ] **Noise:** input-referred spectrum and integrated RMS noise over 10-1000 Hz, including bias and feedback-network contributions.
-- [ ] **Linearity:** THD for a 100 Hz, 2 mV peak-to-peak differential input, after startup and settling.
-- [ ] **Electrode offset:** demonstrate the required -50 mV to +50 mV tolerance and retain the gain and THD limits after settling.
-- [ ] **Interference rejection:** CMRR and PSRR at 500 Hz, with stimulus definitions and gain ratios documented.
-- [ ] **Input impedance:** measurement at 500 Hz, identifying whether the reported value is differential or per input.
-- [ ] **Current:** total channel quiescent current including bias and common-mode circuitry.
-- [ ] **Stability and load:** loop phase margin where applicable and operation with 1-5 pF loads.
-- [ ] **Robustness:** TT, FF and SS process corners, supply variations and load-capacitance conditions, with results compared against targets.
-- [ ] **Area estimate:** total capacitance and estimated device/passive area, with the estimation method explained.
-
-Include a target-versus-result table and discuss trade-offs and limitations. For clarity, distinguish the amplifier's own noise from any noise included in the electrode-source model. The brief does not specify whether the input-impedance limit is per input or differential, so state the convention explicitly and preferably report both.
-
-## 2.5 Suggested collaboration
-
-| Responsibility | Suggested lead activities |
+| Option | Design considerations |
 | --- | --- |
-| Input stage and noise | Differential input stage, biasing, electrode-offset handling, gain/transconductance calculations, noise and CMRR simulations |
-| Output stage and stability | Gain/output stage where applicable, frequency shaping, compensation, 1 kHz upper cutoff, stability and capacitive-load evaluation |
-| Shared | Architecture selection, initial sizing, schematic reviews, complete verification, trade-off analysis and reporting |
+| Current-feedback instrumentation amplifier (CFIA) [2] | Input common mode, current feedback, offset handling, noise and power. |
+| Capacitively coupled instrumentation amplifier (CCIA) [3] | Capacitor ratios, DC feedback, lower cutoff, input impedance and optional chopping. |
+| Three-op-amp instrumentation amplifier [4] | Headroom at 1.8 V, electrode-offset rejection and the 20 µA total-current limit. |
+| Inverter-based amplifier [5] | Bias and common-mode control; gain and bandwidth over process and supply variations. |
 
-Adapt this division to the chosen architecture; a single-stage solution need not introduce an unnecessary output stage. Both contributors should understand the complete signal path and cross-check each other's results.
+![Example capacitively coupled and current-feedback instrumentation amplifiers.](../assets/IA_example_two.png)
 
-## 2.6 Report and deliverables
+*Example architectures. Implement the bias and feedback circuits needed for GPDK180 and verify the complete channel.*
 
-Provide a report section of at most 8 pages. **No design files are required for Task 2; evaluation is based on the report.** The PMU symbol interface in Task 1 does not apply to this amplifier.
+Establish the DC operating point and reject electrode offsets. Set both cutoff frequencies and check operation with the output load. Include common-mode feedback where required by the output configuration. Chopping is optional; alternative architectures are allowed.
 
-The report should contain:
+## Simulation checks
 
-1. The selected architecture and intended circuit operation.
-2. Analytical calculations, transistor sizing and component/bias choices.
-3. Schematics and simulation evidence for each performance requirement.
-4. Noise, stability, linearity and corner analysis.
-5. A final specification comparison, including limitations and optimisation decisions.
-6. Each contributor's technical work and critical reflection on the design process.
+Record supply voltage, input common mode, output operating point, electrode offset, input stimulus, output load, process corner and temperature. State the limits of any supply sweep; the brief does not prescribe them.
 
-Present plots with readable axes, units, conditions and markers. Explain results rather than relying on screenshots alone.
+| Analysis | Check |
+| --- | --- |
+| DC operating point | Bias currents, device regions, input common mode and output swing. |
+| AC response | Gain at 100 Hz and both -3 dB cutoffs; state the reference gain used for the cutoffs. |
+| Noise | Input-referred spectrum and RMS noise over 10-1000 Hz, including bias and feedback-network noise. Distinguish amplifier noise from electrode-source noise. |
+| Transient and distortion | THD for a 100 Hz, 2 mV peak-to-peak differential input after settling. |
+| Electrode-offset sweep | Retain gain and THD limits without saturation after settling across -50 mV to +50 mV. |
+| Interference rejection | CMRR and PSRR at 500 Hz; state stimuli and gain-ratio definitions. |
+| Input impedance | Value at 500 Hz; state the per-input or differential convention. The brief leaves this undefined, so preferably record both. |
+| Current | Total quiescent current, including local bias and common-mode circuits. |
+| Stability and load | Loop phase margin where feedback is used; operation with 1-5 pF loads. |
+| Corners | TT, FF and SS, supply variations and load-capacitance variations. |
 
-## 2.7 References and supporting reading
+Compare results with every specification and explain any shortfall. Record total capacitance and estimated device/passive area with the estimation method.
 
-1. X. Tang, Y. Liu, C. Lv and D. Sun, *Hand Motion Classification Using a Multi-Channel Surface Electromyography Sensor*, Sensors, 12(2), 1130-1147, 2012. [DOI](https://doi.org/10.3390/s120201130).
-2. R. F. Yazicioglu, P. Merken, R. Puers and C. Van Hoof, *A 60 µW 60 nV/√Hz Readout Front-End for Portable Biopotential Acquisition Systems*, JSSC, 42(5), 1100-1110, 2007. [DOI](https://doi.org/10.1109/JSSC.2007.894804).
-3. Q. Fan, F. Sebastiano, J. H. Huijsing and K. A. A. Makinwa, *A 1.8 µW 60 nV/√Hz Capacitively-Coupled Chopper Instrumentation Amplifier in 65 nm CMOS for Wireless Sensor Nodes*, JSSC, 46(7), 1534-1543, 2011. [DOI](https://doi.org/10.1109/JSSC.2011.2143610).
-4. Analog Devices, *MT-063: Basic Three Op Amp In-Amp Configuration*. [Tutorial](https://www.analog.com/media/en/training-seminars/tutorials/MT-063.pdf). The tutorial title has been corrected from the source brief's reference list.
-5. R. Vieira et al., *A Tunable Gain and Bandwidth Low-Noise Amplifier with 1.44 NEF for EMG and EOG Biopotential Signal*, Electronics, 12(12), 2592, 2023. [DOI](https://doi.org/10.3390/electronics12122592).
+## Reading
 
-Additional repository reading: [Harrison and Charles baseline recording amplifier](../resources/%5BRecording_Amp%5D_Baseline_Harrison_and_Charles.pdf) and [Denison et al. chopping example](../resources/%5BRecording_Amp%5D_Chopping_Denison_et_al.pdf). These are supporting examples, not extra required implementations.
+1. X. Tang et al., *Hand Motion Classification Using a Multi-Channel Surface Electromyography Sensor*, Sensors, 2012. [DOI](https://doi.org/10.3390/s120201130).
+2. R. F. Yazicioglu et al., *A 60 µW 60 nV/√Hz Readout Front-End for Portable Biopotential Acquisition Systems*, JSSC, 2007. [DOI](https://doi.org/10.1109/JSSC.2007.894804).
+3. Q. Fan et al., *A 1.8 µW 60 nV/√Hz Capacitively-Coupled Chopper Instrumentation Amplifier in 65 nm CMOS for Wireless Sensor Nodes*, JSSC, 2011. [DOI](https://doi.org/10.1109/JSSC.2011.2143610).
+4. Analog Devices, *MT-063: Basic Three Op Amp In-Amp Configuration*. [Tutorial](https://www.analog.com/media/en/training-seminars/tutorials/MT-063.pdf).
+5. R. Vieira et al., *A Tunable Gain and Bandwidth Low-Noise Amplifier with 1.44 NEF for EMG and EOG Biopotential Signal*, Electronics, 2023. [DOI](https://doi.org/10.3390/electronics12122592).
 
-[Back to overview](../README.md) · [Return to Task 1](task-1-pmu.md)
+Further examples: [Harrison and Charles](../resources/articles/%5BRecording_Amp%5D_Baseline_Harrison_and_Charles.pdf) and [Denison et al.](../resources/articles/%5BRecording_Amp%5D_Chopping_Denison_et_al.pdf).
+
+[Overview](../README.md) · [Task 1](task-1-pmu.md)
