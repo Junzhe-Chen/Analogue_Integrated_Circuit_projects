@@ -40,10 +40,3 @@ No layout or fabrication is required by this guide.
 ## Reading and source notes
 
 Supporting papers are in [resources](resources/), with task-specific reading linked in each chapter. Existing figures are in [assets](assets/).
-
-The rewrite resolves the source brief's inconsistencies as follows:
-
-- Task 2 uses the numerical table's **10 ± 2 Hz** lower cutoff and **1 ± 0.2 kHz** upper cutoff. The source introduction's 20-1000 Hz description is not used as a competing requirement.
-- Task 2 is **report only**, following its explicit deliverables statement. Packaging and automated-interface requirements apply to Task 1 only.
-- The title of Analog Devices tutorial MT-063 is corrected to *Basic Three Op Amp In-Amp Configuration*.
-- Example figures are conceptual starting points. Numerical requirements are defined by the chapter tables; ambiguous figure annotations do not add extra specifications.
