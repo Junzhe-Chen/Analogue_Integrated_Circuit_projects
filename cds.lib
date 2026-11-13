@@ -1,0 +1,5 @@
+INCLUDE $GPDK180_PATH
+DEFINE Designs ./Designs
+DEFINE US_8ths /eda/cadence/2022-23/RHELx86/IC_6.1.8.320/tools/dfII/etc/cdslib/sheets/US_8ths
+DEFINE avTech /eda/cadence/2022-23/RHELx86/ASSURA_04.16.113_618/tools.lnx86/assura/etc/avtech/avTech
+DEFINE cw_submission Analogue_Integrated_Circuit_projects/cw_submission
